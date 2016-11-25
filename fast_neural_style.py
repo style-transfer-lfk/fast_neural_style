@@ -125,24 +125,16 @@ def main(argv=None):
 
         saver = tf.train.Saver(tf.all_variables())
         file = tf.train.latest_checkpoint(model_path)
-        #sess.run([tf.initialize_all_variables(), tf.initialize_local_variables()])
+        sess.run([tf.initialize_all_variables(), tf.initialize_local_variables()])
         if file:
             print('Restoring model from {}'.format(file))
-            saver.restore(sess, file)
-            sess.run(tf.initialize_local_variables())
-        else:
-            print('New model initilized')
-            sess.run(tf.initialize_all_variables())
-                
-        #if file:
-            #print('Restoring model from {}'.format(file))
-           # saver.restore(sess, file)
+            saver.restore(sess, file)     
 
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
         start_time = time.time()
         try:
-            while not coord.should_stop():
+            while step<=1000:
                 _, loss_t, step = sess.run([train_op, loss, global_step])
                 elapsed_time = time.time() - start_time
                 start_time = time.time()
@@ -150,7 +142,7 @@ def main(argv=None):
                     print(step, loss_t, elapsed_time)
                     summary_str = sess.run(summary)
                     writer.add_summary(summary_str, step)
-                if step % 10000 == 0:
+                if step % 100 == 0:
                     saver.save(sess, model_path + '/fast-style-model', global_step=step)
         except tf.errors.OutOfRangeError:
             saver.save(sess, model_path + '/fast-style-model-done')
