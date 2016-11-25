@@ -138,7 +138,7 @@ def main(argv=None):
                 _, loss_t, step = sess.run([train_op, loss, global_step])
                 elapsed_time = time.time() - start_time
                 start_time = time.time()
-                if step % 100 == 0:
+                if step % 1== 0:
                     print(step, loss_t, elapsed_time)
                     summary_str = sess.run(summary)
                     writer.add_summary(summary_str, step)
