@@ -125,10 +125,18 @@ def main(argv=None):
 
         saver = tf.train.Saver(tf.all_variables())
         file = tf.train.latest_checkpoint(model_path)
-        sess.run([tf.initialize_all_variables(), tf.initialize_local_variables()])
+        #sess.run([tf.initialize_all_variables(), tf.initialize_local_variables()])
         if file:
             print('Restoring model from {}'.format(file))
             saver.restore(sess, file)
+            sess.run(tf.initialize_local_variables())
+        else:
+            print('New model initilized')
+            sess.run(tf.initialize_all_variables())
+                
+        #if file:
+            #print('Restoring model from {}'.format(file))
+           # saver.restore(sess, file)
 
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
