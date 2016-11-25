@@ -134,7 +134,7 @@ def main(argv=None):
         threads = tf.train.start_queue_runners(coord=coord)
         start_time = time.time()
         try:
-            while step<=1000:
+            while step<=20:
                 _, loss_t, step = sess.run([train_op, loss, global_step])
                 elapsed_time = time.time() - start_time
                 start_time = time.time()
@@ -142,7 +142,7 @@ def main(argv=None):
                     print(step, loss_t, elapsed_time)
                     summary_str = sess.run(summary)
                     writer.add_summary(summary_str, step)
-                if step % 100 == 0:
+                if step % 10 == 0:
                     saver.save(sess, model_path + '/fast-style-model', global_step=step)
         except tf.errors.OutOfRangeError:
             saver.save(sess, model_path + '/fast-style-model-done')
