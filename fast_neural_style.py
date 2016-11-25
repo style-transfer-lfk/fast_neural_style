@@ -119,7 +119,7 @@ def main(argv=None):
     tf.image_summary('generated', generated)
 
     summary = tf.merge_all_summaries()
-
+    step=0
     with tf.Session() as sess:
         writer = tf.train.SummaryWriter(summary_path, sess.graph)
 
