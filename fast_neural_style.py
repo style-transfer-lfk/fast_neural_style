@@ -134,11 +134,11 @@ def main(argv=None):
         threads = tf.train.start_queue_runners(coord=coord)
         start_time = time.time()
         try:
-            while step<=20:
+            while step<=1000:
                 _, loss_t, step = sess.run([train_op, loss, global_step])
                 elapsed_time = time.time() - start_time
                 start_time = time.time()
-                if step % 1== 0:
+                if step % 10== 0:
                     print(step, loss_t, elapsed_time)
                     summary_str = sess.run(summary)
                     writer.add_summary(summary_str, step)
